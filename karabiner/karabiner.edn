@@ -27,11 +27,14 @@
   :hyper-mode {:key :caps_lock :alone {:key :escape}
   }
 }
-:simlayers {:launch-mode {:key :o}
+:simlayers {:launch-mode {:key :semicolon}
             :k2-mode {:key :2 }
             :period-mode {:key :period}
             :comma-mode {:key :comma}}
 :main [
+        {:des "home to opt" :rules [[:home :right_option]]}
+        {:des "end to ctrl" :rules [[:end :right_control]]}
+
         {:des "Hyper Mode - Navigation [VI style]"
          :rules [:hyper-mode
                  [:j :down_arrow]
@@ -93,16 +96,18 @@
          :rules [:period-mode
                  [:1 :!CO0]      ;; Screenshot with Cloudapp
          ]}
-                
+
         {:des "Launcher Mode [O] as Trigger Key"
          :rules [:launch-mode
-                 [:1 [:open "/Applications/1Password 7.app"]]
                  [:2 [:open "/Applications/CloudApp.app"]]
+                 [:a [:open "/Applications/Anki.app"]]
                  [:c [:open "/Applications/Google Chrome.app"]]
                  [:e [:open "/Applications/Spark.app"]]
                  [:g [:open "/Applications/Tower.app"]]
                  [:i [:open "iTerm"]]
                  [:k [:vscode "~/.config/karabiner/" "~/.config/karabiner/karabiner.edn"]]
+                 [:o [:open "/Applications/Obsidian.app"]]
+                 [:1 [:open "/Applications/1Password 7.app"]]
                  [:t [:open "/Applications/Things3.app"]]
                  [:w [:launch "Webstorm"]]]}
 
@@ -115,8 +120,11 @@
  ]
  ; the default value is 250
 
-:simlayer-threshold 500
-
+:simlayer-threshold 300
+; :alone 500
+; :delay 200
+; :held 500
+; :sim 200
 :devices {:matias [{:product_id 591 :vendor_id 1452}]}
 
 :applications {:Terminals ["^com\\.apple\\.Terminal$"
