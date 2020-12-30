@@ -108,7 +108,7 @@
 
         {:des "comma-mode"
          :rules [:comma-mode
-                 [:r [:open-chrome "https://roamresearch.com/#/app/rayadb"]]
+                 [:r [:open-chrome "roamresearch.com/#/app/rayadb"]]
          ]}
 
                  
