@@ -1,0 +1,152 @@
+{
+:templates {
+  :vscode "osascript -e 'tell application \"Visual Studio Code\" to activate' && open -a 'Visual Studio Code' %s -g %s"
+  :launch "osascript -e 'tell application \"%s\" to activate'"
+  :open "open \"%s\""
+  :open-chrome "osascript -e '
+        set address to \"%s\"
+        tell application \"Google Chrome\"
+          activate
+            if not (exists window 1) then reopen
+              repeat with w in windows
+                set i to 1
+                repeat with t in tabs of w
+                if URL of t contains address then
+                        set active tab index of w to i
+                        set index of w to 1
+                        return
+                end if
+                set i to i + 1
+                end repeat
+        end repeat
+        open location \"http://\" & address
+        end tell
+        '"
+}
+:layers {
+  :hyper-mode {:key :caps_lock :alone {:key :escape}
+  }
+}
+:simlayers {:launch-mode {:key :semicolon}
+            :k2-mode {:key :2 }
+            :period-mode {:key :period}
+            :comma-mode {:key :comma}}
+:main [
+        {:des "home to opt" :rules [[:home :right_option]]}
+        {:des "end to ctrl" :rules [[:end :right_control]]}
+
+        {:des "Hyper Mode - Navigation [VI style]"
+         :rules [:hyper-mode
+                 [:j :down_arrow]
+                 [:k :up_arrow]
+                 [:h :left_arrow]
+                 [:l :right_arrow]
+                 [:b :!Oleft_arrow]
+                 [:w :!Oright_arrow]
+                 [:u :home]
+                 [:i :end]
+                 [:!Cj :!Sdown_arrow]
+                 [:!Ck :!Sup_arrow]
+                 [:!Ch :!Sleft_arrow]
+                 [:!Cl :!Sright_arrow]
+                 [:!Cb :!SOleft_arrow]
+                 [:!Cw :!SOright_arrow]
+                 [:!Cu :!Shome]
+                 [:!Ci :!Send]
+                 [:!Oj {:mkey {:y 1536}}]
+                 [:!Ok {:mkey {:y -1536}}]
+                 [:!Oh {:mkey {:x -1536}}]
+                 [:!Ol {:mkey {:x 1536}}]]}
+
+        {:des "Hyper Mode - Mousekey"
+         :rules [:hyper-mode
+                 [:down_arrow {:mkey {:y 1536}}]
+                 [:up_arrow {:mkey {:y -1536}}]
+                 [:left_arrow {:mkey {:x -1536}}]
+                 [:right_arrow {:mkey {:x 1536}}]
+                 [:return_or_enter {:pkey :button1}]
+                 [:!Creturn_or_enter {:pkey :button2}]]}
+        {:des "Hyper Mode - Deletion"
+         :rules [:hyper-mode
+                 [:n :!Odelete_or_backspace]
+                 [:m :delete_or_backspace]
+                 [:comma :delete_forward]
+                 [:period :!Odelete_forward]
+                 [:!Cn :!Cdelete_or_backspace]
+                 [:!Cm :!Cdelete_or_backspace]
+                 [:!Ccomma :!Cdelete_forward]
+                 [:!Cperiod :!Cdelete_forward]]}
+
+        {:des "Hyper Mode - Misc"
+         :rules [:hyper-mode
+                 [:escape :caps_lock]
+                 [:grave_accent_and_tilde :!CS5]]}
+
+        {:des   "resize window, remap Rectangle"
+         :rules [:k2-mode
+                 [:n :!COequal_sign]      ;; next display
+                 [:h :!COleft_arrow]        ;; left half
+                 [:l :!COright_arrow]       ;; right half
+                 [:k :!COup_arrow]          ;; maximize
+                 [:j :!COdown_arrow]        ;; middle large
+         ]}
+
+
+        {:des   "period mode"
+         :rules [:period-mode
+                 [:1 :!CO0]      ;; Screenshot with Cloudapp
+         ]}
+
+        {:des "Launcher Mode [O] as Trigger Key"
+         :rules [:launch-mode
+                 [:2 [:open "/Applications/CloudApp.app"]]
+                 [:a [:open "/Applications/Anki.app"]]
+                 [:c [:open "/Applications/Google Chrome.app"]]
+                 [:e [:open "/Applications/Spark.app"]]
+                 [:g [:open "/Applications/Tower.app"]]
+                 [:i [:open "iTerm"]]
+                 [:k [:vscode "~/.config/karabiner/" "~/.config/karabiner/karabiner.edn"]]
+                 [:o [:open "/Applications/Obsidian.app"]]
+                 [:1 [:open "/Applications/1Password 7.app"]]
+                 [:t [:open "/Applications/Things3.app"]]
+                 [:w [:launch "Webstorm"]]]}
+
+        {:des "comma-mode"
+         :rules [:comma-mode
+                 [:r [:open-chrome "roamresearch.com/#/app/rayadb"]]
+         ]}
+
+                 
+ ]
+ ; the default value is 250
+
+:simlayer-threshold 300
+; :alone 500
+; :delay 200
+; :held 500
+; :sim 200
+:devices {:matias [{:product_id 591 :vendor_id 1452}]}
+
+:applications {:Terminals ["^com\\.apple\\.Terminal$"
+                            "^com\\.googlecode\\.iterm2$"]}
+}
+
+;; rule [:period ["media-mode" 1] nil {:afterup ["media-mode" 0] :alone :period}]
+;;       |_____| |_______________| |_| |_________________________________________|
+;;        <from>    <to>      <conditions>         <other options>
+
+    ;; !  | means mandatory
+    ;; #  | means optional
+    ;; C  | left_command
+    ;; T  | left_control
+    ;; O  | left_option
+    ;; S  | left_shift
+    ;; F  | fn
+    ;; Q  | right_command
+    ;; W  | right_control
+    ;; E  | right_option
+    ;; R  | right_shift
+    ;; 
+    ;; !! | mandatory command + control + optional + shift (hyper)
+    ;; ## | optional any
+;; 
